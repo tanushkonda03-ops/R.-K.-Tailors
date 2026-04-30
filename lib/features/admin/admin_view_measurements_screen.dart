@@ -12,10 +12,12 @@ class AdminViewMeasurementsScreen extends StatefulWidget {
   const AdminViewMeasurementsScreen({super.key});
 
   @override
-  State<AdminViewMeasurementsScreen> createState() => _AdminViewMeasurementsScreenState();
+  State<AdminViewMeasurementsScreen> createState() =>
+      _AdminViewMeasurementsScreenState();
 }
 
-class _AdminViewMeasurementsScreenState extends State<AdminViewMeasurementsScreen> {
+class _AdminViewMeasurementsScreenState
+    extends State<AdminViewMeasurementsScreen> {
   final TextEditingController _idController = TextEditingController();
   final MeasurementService _measurementService = MeasurementService();
 
@@ -28,7 +30,11 @@ class _AdminViewMeasurementsScreenState extends State<AdminViewMeasurementsScree
   Map<String, dynamic>? _garmentData;
 
   // Keys to skip when displaying measurements
-  static const _skipKeys = {'timestamp', 'referenceImagesBase64', 'referenceImageBase64'};
+  static const _skipKeys = {
+    'timestamp',
+    'referenceImagesBase64',
+    'referenceImageBase64',
+  };
 
   void _fetchCustomer() async {
     final query = _idController.text.trim();
@@ -90,7 +96,10 @@ class _AdminViewMeasurementsScreenState extends State<AdminViewMeasurementsScree
     });
 
     try {
-      final data = await _measurementService.getGarmentMeasurement(_customerUid!, _selectedGarment!);
+      final data = await _measurementService.getGarmentMeasurement(
+        _customerUid!,
+        _selectedGarment!,
+      );
       setState(() => _garmentData = data);
     } catch (e) {
       setState(() => _error = 'Error loading garment.');
@@ -111,13 +120,20 @@ class _AdminViewMeasurementsScreenState extends State<AdminViewMeasurementsScree
             width: 140,
             child: Text(
               label,
-              style: GoogleFonts.poppins(fontSize: 14, fontWeight: FontWeight.w600, color: AppColors.textPrimary),
+              style: GoogleFonts.poppins(
+                fontSize: 14,
+                fontWeight: FontWeight.w600,
+                color: AppColors.textPrimary,
+              ),
             ),
           ),
           Expanded(
             child: Text(
               value,
-              style: GoogleFonts.poppins(fontSize: 14, color: AppColors.textSecondary),
+              style: GoogleFonts.poppins(
+                fontSize: 14,
+                color: AppColors.textSecondary,
+              ),
             ),
           ),
         ],
@@ -129,9 +145,11 @@ class _AdminViewMeasurementsScreenState extends State<AdminViewMeasurementsScree
     List<String> images = [];
 
     // Support both old single-image and new multi-image format
-    if (data.containsKey('referenceImagesBase64') && data['referenceImagesBase64'] is List) {
+    if (data.containsKey('referenceImagesBase64') &&
+        data['referenceImagesBase64'] is List) {
       images = List<String>.from(data['referenceImagesBase64']);
-    } else if (data.containsKey('referenceImageBase64') && data['referenceImageBase64'] is String) {
+    } else if (data.containsKey('referenceImageBase64') &&
+        data['referenceImageBase64'] is String) {
       images = [data['referenceImageBase64']];
     }
 
@@ -139,14 +157,21 @@ class _AdminViewMeasurementsScreenState extends State<AdminViewMeasurementsScree
 
     return [
       const SizedBox(height: 16),
-      Text('Reference Images', style: GoogleFonts.poppins(fontSize: 14, fontWeight: FontWeight.w600, color: AppColors.textPrimary)),
+      Text(
+        'Reference Images',
+        style: GoogleFonts.poppins(
+          fontSize: 14,
+          fontWeight: FontWeight.w600,
+          color: AppColors.textPrimary,
+        ),
+      ),
       const SizedBox(height: 12),
       SizedBox(
         height: 200,
         child: ListView.separated(
           scrollDirection: Axis.horizontal,
           itemCount: images.length,
-          separatorBuilder: (_, __) => const SizedBox(width: 12),
+          separatorBuilder: (context, index) => const SizedBox(width: 12),
           itemBuilder: (context, index) {
             try {
               final base64Str = images[index].split(',').last;
@@ -167,7 +192,12 @@ class _AdminViewMeasurementsScreenState extends State<AdminViewMeasurementsScree
                   color: AppColors.background,
                   borderRadius: BorderRadius.circular(12),
                 ),
-                child: const Center(child: Icon(Icons.broken_image, color: AppColors.textSecondary)),
+                child: const Center(
+                  child: Icon(
+                    Icons.broken_image,
+                    color: AppColors.textSecondary,
+                  ),
+                ),
               );
             }
           },
@@ -190,9 +220,22 @@ class _AdminViewMeasurementsScreenState extends State<AdminViewMeasurementsScree
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Text('View Measurements', style: GoogleFonts.playfairDisplay(fontSize: 28, fontWeight: FontWeight.bold, color: AppColors.textPrimary)),
+            Text(
+              'View Measurements',
+              style: GoogleFonts.playfairDisplay(
+                fontSize: 28,
+                fontWeight: FontWeight.bold,
+                color: AppColors.textPrimary,
+              ),
+            ),
             const SizedBox(height: 8),
-            Text('Quick reference while stitching garments.', style: GoogleFonts.poppins(fontSize: 14, color: AppColors.textSecondary)),
+            Text(
+              'Quick reference while stitching garments.',
+              style: GoogleFonts.poppins(
+                fontSize: 14,
+                color: AppColors.textSecondary,
+              ),
+            ),
             const SizedBox(height: 32),
 
             NeumorphicTextField(
@@ -203,21 +246,47 @@ class _AdminViewMeasurementsScreenState extends State<AdminViewMeasurementsScree
               onSubmitted: (_) => _fetchCustomer(),
             ),
             const SizedBox(height: 16),
-            Center(child: NeumorphicButton(label: 'Find Customer', onTap: _fetchCustomer, isLoading: _isLoading)),
+            Center(
+              child: NeumorphicButton(
+                label: 'Find Customer',
+                onTap: _fetchCustomer,
+                isLoading: _isLoading,
+              ),
+            ),
             const SizedBox(height: 24),
 
             if (_error != null)
               Padding(
                 padding: const EdgeInsets.all(8),
-                child: Text(_error!, textAlign: TextAlign.center, style: GoogleFonts.poppins(color: Colors.redAccent, fontWeight: FontWeight.w500)),
+                child: Text(
+                  _error!,
+                  textAlign: TextAlign.center,
+                  style: GoogleFonts.poppins(
+                    color: Colors.redAccent,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
               ),
 
             if (_availableGarments.isNotEmpty) ...[
               const Divider(height: 48),
-              Text('Customer: $_customerName', style: GoogleFonts.poppins(fontSize: 16, fontWeight: FontWeight.w600, color: AppColors.textPrimary)),
+              Text(
+                'Customer: $_customerName',
+                style: GoogleFonts.poppins(
+                  fontSize: 16,
+                  fontWeight: FontWeight.w600,
+                  color: AppColors.textPrimary,
+                ),
+              ),
               const SizedBox(height: 16),
 
-              Text('Select Garment', style: GoogleFonts.poppins(fontSize: 12, color: AppColors.textSecondary)),
+              Text(
+                'Select Garment',
+                style: GoogleFonts.poppins(
+                  fontSize: 12,
+                  color: AppColors.textSecondary,
+                ),
+              ),
               const SizedBox(height: 4),
               NeumorphicContainer(
                 borderRadius: 12,
@@ -226,11 +295,18 @@ class _AdminViewMeasurementsScreenState extends State<AdminViewMeasurementsScree
                 child: DropdownButtonHideUnderline(
                   child: DropdownButton<String>(
                     value: _selectedGarment,
-                    hint: Text('Choose garment', style: GoogleFonts.poppins(color: AppColors.textSecondary)),
+                    hint: Text(
+                      'Choose garment',
+                      style: GoogleFonts.poppins(
+                        color: AppColors.textSecondary,
+                      ),
+                    ),
                     isExpanded: true,
                     dropdownColor: AppColors.background,
                     style: GoogleFonts.poppins(color: AppColors.textPrimary),
-                    items: _availableGarments.map((g) => DropdownMenuItem(value: g, child: Text(g))).toList(),
+                    items: _availableGarments
+                        .map((g) => DropdownMenuItem(value: g, child: Text(g)))
+                        .toList(),
                     onChanged: (val) => setState(() => _selectedGarment = val),
                   ),
                 ),
@@ -254,19 +330,33 @@ class _AdminViewMeasurementsScreenState extends State<AdminViewMeasurementsScree
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    Row(children: [
-                      Icon(Icons.straighten, color: AppColors.primary),
-                      const SizedBox(width: 8),
-                      Text(
-                        _selectedGarment ?? '',
-                        style: GoogleFonts.playfairDisplay(fontSize: 22, fontWeight: FontWeight.bold, color: AppColors.primary),
-                      ),
-                    ]),
+                    Row(
+                      children: [
+                        Icon(Icons.straighten, color: AppColors.primary),
+                        const SizedBox(width: 8),
+                        Text(
+                          _selectedGarment ?? '',
+                          style: GoogleFonts.playfairDisplay(
+                            fontSize: 22,
+                            fontWeight: FontWeight.bold,
+                            color: AppColors.primary,
+                          ),
+                        ),
+                      ],
+                    ),
                     const Divider(height: 32),
 
                     ..._garmentData!.entries
-                        .where((e) => !_skipKeys.contains(e.key) && e.value != null && e.value.toString().isNotEmpty)
-                        .map((e) => _buildMeasurementRow(e.key, e.value.toString())),
+                        .where(
+                          (e) =>
+                              !_skipKeys.contains(e.key) &&
+                              e.value != null &&
+                              e.value.toString().isNotEmpty,
+                        )
+                        .map(
+                          (e) =>
+                              _buildMeasurementRow(e.key, e.value.toString()),
+                        ),
 
                     ..._buildBase64Images(_garmentData!),
                   ],

@@ -53,7 +53,9 @@ class _UserBillsScreenState extends State<UserBillsScreen> {
       await Printing.layoutPdf(onLayout: (_) => pdfBytes);
     } catch (e) {
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Error: $e')));
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text('Error: $e')));
       }
     }
   }
@@ -71,92 +73,166 @@ class _UserBillsScreenState extends State<UserBillsScreen> {
     return Scaffold(
       backgroundColor: AppColors.background,
       appBar: AppBar(
-        title: Text('My Bills', style: GoogleFonts.playfairDisplay(color: AppColors.textPrimary, fontWeight: FontWeight.w700)),
+        title: Text(
+          'My Bills',
+          style: GoogleFonts.playfairDisplay(
+            color: AppColors.textPrimary,
+            fontWeight: FontWeight.w700,
+          ),
+        ),
         backgroundColor: AppColors.background,
         elevation: 0,
         centerTitle: true,
-        leading: IconButton(icon: const Icon(Icons.arrow_back, color: AppColors.textPrimary), onPressed: () => Navigator.pop(context)),
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back, color: AppColors.textPrimary),
+          onPressed: () => Navigator.pop(context),
+        ),
       ),
       body: _isLoading
-          ? const Center(child: CircularProgressIndicator(color: AppColors.primary))
+          ? const Center(
+              child: CircularProgressIndicator(color: AppColors.primary),
+            )
           : _bills.isEmpty
-              ? Center(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Icon(Icons.receipt_long, size: 64, color: AppColors.textSecondary.withValues(alpha: 0.5)),
-                      const SizedBox(height: 16),
-                      Text('No active bills.', style: GoogleFonts.poppins(fontSize: 16, color: AppColors.textSecondary)),
-                    ],
+          ? Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(
+                    Icons.receipt_long,
+                    size: 64,
+                    color: AppColors.textSecondary.withValues(alpha: 0.5),
                   ),
-                )
-              : SingleChildScrollView(
-                  padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 24),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: _bills.map((bill) {
-                      final items = List<Map<String, dynamic>>.from(bill['items'] ?? []);
-                      return Padding(
-                        padding: const EdgeInsets.only(bottom: 24),
-                        child: NeumorphicContainer(
-                          borderRadius: 16,
-                          padding: const EdgeInsets.all(20),
-                          isPressed: false,
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.stretch,
+                  const SizedBox(height: 16),
+                  Text(
+                    'No active bills.',
+                    style: GoogleFonts.poppins(
+                      fontSize: 16,
+                      color: AppColors.textSecondary,
+                    ),
+                  ),
+                ],
+              ),
+            )
+          : SingleChildScrollView(
+              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 24),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: _bills.map((bill) {
+                  final items = List<Map<String, dynamic>>.from(
+                    bill['items'] ?? [],
+                  );
+                  return Padding(
+                    padding: const EdgeInsets.only(bottom: 24),
+                    child: NeumorphicContainer(
+                      borderRadius: 16,
+                      padding: const EdgeInsets.all(20),
+                      isPressed: false,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text('Bill #${bill['billNo']}', style: GoogleFonts.playfairDisplay(fontSize: 20, fontWeight: FontWeight.bold, color: AppColors.primary)),
-                                  Text(_formatDate(bill['date']), style: GoogleFonts.poppins(fontSize: 12, color: AppColors.textSecondary)),
-                                ],
-                              ),
-                              const Divider(height: 24),
-
-                              // Items summary
-                              ...items.map((item) => Padding(
-                                padding: const EdgeInsets.symmetric(vertical: 2),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Text('${item['name']} ×${item['quantity']}', style: GoogleFonts.poppins(fontSize: 13, color: AppColors.textPrimary)),
-                                    Text('₹${((item['amount'] as num).toDouble()).toStringAsFixed(0)}', style: GoogleFonts.poppins(fontSize: 13, color: AppColors.textSecondary)),
-                                  ],
+                              Text(
+                                'Bill #${bill['billNo']}',
+                                style: GoogleFonts.playfairDisplay(
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.bold,
+                                  color: AppColors.primary,
                                 ),
-                              )),
-
-                              const Divider(height: 20),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text('Grand Total', style: GoogleFonts.poppins(fontSize: 16, fontWeight: FontWeight.w700, color: AppColors.primary)),
-                                  Text('₹${((bill['grandTotal'] as num).toDouble()).toStringAsFixed(0)}', style: GoogleFonts.poppins(fontSize: 16, fontWeight: FontWeight.w700, color: AppColors.textPrimary)),
-                                ],
                               ),
-                              const SizedBox(height: 16),
-
-                              SizedBox(
-                                width: double.infinity,
-                                child: ElevatedButton.icon(
-                                  icon: const Icon(Icons.download, size: 18),
-                                  label: Text('Download Bill', style: GoogleFonts.poppins(fontWeight: FontWeight.w600)),
-                                  style: ElevatedButton.styleFrom(
-                                    backgroundColor: AppColors.primary,
-                                    foregroundColor: Colors.white,
-                                    padding: const EdgeInsets.symmetric(vertical: 12),
-                                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-                                  ),
-                                  onPressed: () => _downloadBill(bill),
+                              Text(
+                                _formatDate(bill['date']),
+                                style: GoogleFonts.poppins(
+                                  fontSize: 12,
+                                  color: AppColors.textSecondary,
                                 ),
                               ),
                             ],
                           ),
-                        ),
-                      );
-                    }).toList(),
-                  ),
-                ),
+                          const Divider(height: 24),
+
+                          // Items summary
+                          ...items.map(
+                            (item) => Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 2),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    '${item['name']} ×${item['quantity']}',
+                                    style: GoogleFonts.poppins(
+                                      fontSize: 13,
+                                      color: AppColors.textPrimary,
+                                    ),
+                                  ),
+                                  Text(
+                                    '₹${((item['amount'] as num).toDouble()).toStringAsFixed(0)}',
+                                    style: GoogleFonts.poppins(
+                                      fontSize: 13,
+                                      color: AppColors.textSecondary,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+
+                          const Divider(height: 20),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                'Grand Total',
+                                style: GoogleFonts.poppins(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w700,
+                                  color: AppColors.primary,
+                                ),
+                              ),
+                              Text(
+                                '₹${((bill['grandTotal'] as num).toDouble()).toStringAsFixed(0)}',
+                                style: GoogleFonts.poppins(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w700,
+                                  color: AppColors.textPrimary,
+                                ),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(height: 16),
+
+                          SizedBox(
+                            width: double.infinity,
+                            child: ElevatedButton.icon(
+                              icon: const Icon(Icons.download, size: 18),
+                              label: Text(
+                                'Download Bill',
+                                style: GoogleFonts.poppins(
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: AppColors.primary,
+                                foregroundColor: Colors.white,
+                                padding: const EdgeInsets.symmetric(
+                                  vertical: 12,
+                                ),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(12),
+                                ),
+                              ),
+                              onPressed: () => _downloadBill(bill),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  );
+                }).toList(),
+              ),
+            ),
     );
   }
 }

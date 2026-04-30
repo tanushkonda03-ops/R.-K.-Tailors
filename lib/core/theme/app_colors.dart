@@ -6,14 +6,15 @@ class AppColors {
   AppColors._();
 
   // ── Primary Palette ──────────────────────────────────────────────
-  static const Color primary = Color(0xFF800000);       // Maroon
-  static const Color secondary = Color(0xFFF5DEB3);     // Beige / Wheat
-  static const Color accent = Color(0xFF4B2E2E);        // Dark Brown
-  static const Color background = Color(0xFFFAF9F6);    // Off-white
+  static const Color primary = Color(0xFF800000); // Maroon
+  static const Color secondary = Color(0xFFF5DEB3); // Beige / Wheat
+  static const Color accent = Color(0xFF4B2E2E); // Dark Brown
+  static const Color background = Color(0xFFFAF9F6); // Off-white
 
   // ── Neumorphic Helpers ───────────────────────────────────────────
   /// Light shadow (top-left highlight)
   static const Color neumorphicLight = Color(0xFFFFFFFF);
+
   /// Dark shadow (bottom-right shadow)
   static const Color neumorphicDark = Color(0xFFD1CDC7);
 

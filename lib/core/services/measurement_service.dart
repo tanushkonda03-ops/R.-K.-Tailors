@@ -6,7 +6,10 @@ class MeasurementService {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
   /// Save measurements for a customer. Handles multiple reference images per garment.
-  Future<void> saveMeasurements(String uid, Map<String, Map<String, dynamic>> measurements) async {
+  Future<void> saveMeasurements(
+    String uid,
+    Map<String, Map<String, dynamic>> measurements,
+  ) async {
     final batch = _firestore.batch();
 
     for (var entry in measurements.entries) {
@@ -14,7 +17,8 @@ class MeasurementService {
       final payload = Map<String, dynamic>.from(entry.value);
 
       // Handle multiple reference images (List<String> of local paths)
-      if (payload.containsKey('referenceImages') && payload['referenceImages'] != null) {
+      if (payload.containsKey('referenceImages') &&
+          payload['referenceImages'] != null) {
         final List<dynamic> imagePaths = payload['referenceImages'];
         final List<String> base64Images = [];
 
@@ -39,7 +43,11 @@ class MeasurementService {
         payload.remove('referenceImages');
       }
 
-      final docRef = _firestore.collection('users').doc(uid).collection('measurements').doc(garment);
+      final docRef = _firestore
+          .collection('users')
+          .doc(uid)
+          .collection('measurements')
+          .doc(garment);
       payload['timestamp'] = FieldValue.serverTimestamp();
       batch.set(docRef, payload, SetOptions(merge: true));
     }
@@ -63,7 +71,10 @@ class MeasurementService {
   }
 
   /// Fetch a single garment's measurement by UID and garment name.
-  Future<Map<String, dynamic>?> getGarmentMeasurement(String uid, String garment) async {
+  Future<Map<String, dynamic>?> getGarmentMeasurement(
+    String uid,
+    String garment,
+  ) async {
     final doc = await _firestore
         .collection('users')
         .doc(uid)

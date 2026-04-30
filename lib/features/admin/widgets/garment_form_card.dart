@@ -66,7 +66,9 @@ class _GarmentFormCardState extends State<GarmentFormCard> {
     final current = _images;
     if (current.length >= _maxImages) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Maximum $_maxImages images allowed per garment.')),
+        SnackBar(
+          content: Text('Maximum $_maxImages images allowed per garment.'),
+        ),
       );
       return;
     }
@@ -96,8 +98,14 @@ class _GarmentFormCardState extends State<GarmentFormCard> {
             child: Wrap(
               children: [
                 ListTile(
-                  leading: const Icon(Icons.camera_alt, color: AppColors.primary),
-                  title: Text('Scan Reference (Camera)', style: GoogleFonts.poppins(color: AppColors.textPrimary)),
+                  leading: const Icon(
+                    Icons.camera_alt,
+                    color: AppColors.primary,
+                  ),
+                  title: Text(
+                    'Scan Reference (Camera)',
+                    style: GoogleFonts.poppins(color: AppColors.textPrimary),
+                  ),
                   onTap: () async {
                     Navigator.pop(ctx);
                     final picked = await _picker.pickImage(
@@ -110,8 +118,14 @@ class _GarmentFormCardState extends State<GarmentFormCard> {
                   },
                 ),
                 ListTile(
-                  leading: const Icon(Icons.photo_library, color: AppColors.primary),
-                  title: Text('Upload from Gallery', style: GoogleFonts.poppins(color: AppColors.textPrimary)),
+                  leading: const Icon(
+                    Icons.photo_library,
+                    color: AppColors.primary,
+                  ),
+                  title: Text(
+                    'Upload from Gallery',
+                    style: GoogleFonts.poppins(color: AppColors.textPrimary),
+                  ),
                   onTap: () async {
                     Navigator.pop(ctx);
                     final picked = await _picker.pickImage(
@@ -139,17 +153,20 @@ class _GarmentFormCardState extends State<GarmentFormCard> {
         padding: const EdgeInsets.symmetric(horizontal: 16),
         isPressed: true,
         child: TextField(
-          controller: TextEditingController(
-            text: widget.data[key]?.toString() ?? '',
-          )..selection = TextSelection.collapsed(
-              offset: (widget.data[key]?.toString() ?? '').length,
-            ),
+          controller:
+              TextEditingController(text: widget.data[key]?.toString() ?? '')
+                ..selection = TextSelection.collapsed(
+                  offset: (widget.data[key]?.toString() ?? '').length,
+                ),
           onChanged: (val) => _updateField(key, val),
           style: GoogleFonts.poppins(color: AppColors.textPrimary),
           decoration: InputDecoration(
             border: InputBorder.none,
             hintText: '$label ${optional ? "(Optional)" : ""}',
-            hintStyle: GoogleFonts.poppins(color: AppColors.textSecondary, fontSize: 14),
+            hintStyle: GoogleFonts.poppins(
+              color: AppColors.textSecondary,
+              fontSize: 14,
+            ),
           ),
         ),
       ),
@@ -157,7 +174,10 @@ class _GarmentFormCardState extends State<GarmentFormCard> {
   }
 
   Widget _buildDropdown(String key, String label, List<String> options) {
-    final value = widget.data[key]?.toString() ?? widget.config.defaultDropdowns[key] ?? options.first;
+    final value =
+        widget.data[key]?.toString() ??
+        widget.config.defaultDropdowns[key] ??
+        options.first;
     final safeValue = options.contains(value) ? value : options.first;
 
     if (widget.data[key] == null) {
@@ -173,7 +193,13 @@ class _GarmentFormCardState extends State<GarmentFormCard> {
         children: [
           Padding(
             padding: const EdgeInsets.only(left: 4, bottom: 4),
-            child: Text(label, style: GoogleFonts.poppins(fontSize: 12, color: AppColors.textSecondary)),
+            child: Text(
+              label,
+              style: GoogleFonts.poppins(
+                fontSize: 12,
+                color: AppColors.textSecondary,
+              ),
+            ),
           ),
           NeumorphicContainer(
             borderRadius: 12,
@@ -185,7 +211,11 @@ class _GarmentFormCardState extends State<GarmentFormCard> {
                 isExpanded: true,
                 dropdownColor: AppColors.background,
                 style: GoogleFonts.poppins(color: AppColors.textPrimary),
-                items: options.map((opt) => DropdownMenuItem(value: opt, child: Text(opt))).toList(),
+                items: options
+                    .map(
+                      (opt) => DropdownMenuItem(value: opt, child: Text(opt)),
+                    )
+                    .toList(),
                 onChanged: (val) {
                   if (val != null) _updateField(key, val);
                 },
@@ -211,13 +241,21 @@ class _GarmentFormCardState extends State<GarmentFormCard> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Icon(images.isNotEmpty ? Icons.add_photo_alternate : Icons.add_a_photo, color: AppColors.primary),
+                Icon(
+                  images.isNotEmpty
+                      ? Icons.add_photo_alternate
+                      : Icons.add_a_photo,
+                  color: AppColors.primary,
+                ),
                 const SizedBox(width: 8),
                 Text(
                   images.isEmpty
                       ? 'Add Reference Image'
                       : 'Add More (${images.length}/$_maxImages)',
-                  style: GoogleFonts.poppins(color: AppColors.textPrimary, fontWeight: FontWeight.w500),
+                  style: GoogleFonts.poppins(
+                    color: AppColors.textPrimary,
+                    fontWeight: FontWeight.w500,
+                  ),
                 ),
               ],
             ),
@@ -230,7 +268,7 @@ class _GarmentFormCardState extends State<GarmentFormCard> {
             child: ListView.separated(
               scrollDirection: Axis.horizontal,
               itemCount: images.length,
-              separatorBuilder: (_, __) => const SizedBox(width: 12),
+              separatorBuilder: (context, index) => const SizedBox(width: 12),
               itemBuilder: (context, index) {
                 final imgPath = images[index];
                 return Stack(
@@ -250,7 +288,11 @@ class _GarmentFormCardState extends State<GarmentFormCard> {
                             color: Colors.black54,
                             shape: BoxShape.circle,
                           ),
-                          child: const Icon(Icons.close, size: 16, color: Colors.white),
+                          child: const Icon(
+                            Icons.close,
+                            size: 16,
+                            color: Colors.white,
+                          ),
                         ),
                       ),
                     ),
@@ -272,11 +314,13 @@ class _GarmentFormCardState extends State<GarmentFormCard> {
       height: 130,
       width: 130,
       fit: BoxFit.cover,
-      errorBuilder: (_, __, ___) => Container(
+      errorBuilder: (context, error, stackTrace) => Container(
         height: 130,
         width: 130,
         color: AppColors.background,
-        child: const Center(child: Icon(Icons.broken_image, color: AppColors.textSecondary)),
+        child: const Center(
+          child: Icon(Icons.broken_image, color: AppColors.textSecondary),
+        ),
       ),
     );
   }
@@ -309,23 +353,52 @@ class _GarmentFormCardState extends State<GarmentFormCard> {
                   children: [
                     if (widget.onCopyAsShirt != null)
                       TextButton.icon(
-                        icon: const Icon(Icons.copy, size: 16, color: AppColors.primary),
-                        label: Text('Copy as Shirt', style: GoogleFonts.poppins(fontSize: 12, fontWeight: FontWeight.w600, color: AppColors.primary)),
+                        icon: const Icon(
+                          Icons.copy,
+                          size: 16,
+                          color: AppColors.primary,
+                        ),
+                        label: Text(
+                          'Copy as Shirt',
+                          style: GoogleFonts.poppins(
+                            fontSize: 12,
+                            fontWeight: FontWeight.w600,
+                            color: AppColors.primary,
+                          ),
+                        ),
                         style: TextButton.styleFrom(
-                          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 8,
+                            vertical: 4,
+                          ),
                           minimumSize: Size.zero,
                           tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                         ),
                         onPressed: widget.onCopyAsShirt,
                       ),
-                    if (widget.onCopyAsShirt != null && widget.onCopyAsKurta != null)
+                    if (widget.onCopyAsShirt != null &&
+                        widget.onCopyAsKurta != null)
                       const SizedBox(width: 8),
                     if (widget.onCopyAsKurta != null)
                       TextButton.icon(
-                        icon: const Icon(Icons.content_copy, size: 16, color: AppColors.primary),
-                        label: Text('Copy as Kurta', style: GoogleFonts.poppins(fontSize: 12, fontWeight: FontWeight.w600, color: AppColors.primary)),
+                        icon: const Icon(
+                          Icons.content_copy,
+                          size: 16,
+                          color: AppColors.primary,
+                        ),
+                        label: Text(
+                          'Copy as Kurta',
+                          style: GoogleFonts.poppins(
+                            fontSize: 12,
+                            fontWeight: FontWeight.w600,
+                            color: AppColors.primary,
+                          ),
+                        ),
                         style: TextButton.styleFrom(
-                          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 8,
+                            vertical: 4,
+                          ),
                           minimumSize: Size.zero,
                           tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                         ),
@@ -343,27 +416,45 @@ class _GarmentFormCardState extends State<GarmentFormCard> {
             // Optional Inputs
             if (widget.config.optionalInputs.isNotEmpty) ...[
               const SizedBox(height: 8),
-              Text('Optional Measurements', style: GoogleFonts.poppins(fontSize: 14, color: AppColors.textSecondary, fontWeight: FontWeight.w600)),
+              Text(
+                'Optional Measurements',
+                style: GoogleFonts.poppins(
+                  fontSize: 14,
+                  color: AppColors.textSecondary,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
               const SizedBox(height: 12),
-              ...widget.config.optionalInputs.map((key) => _buildTextField(key, key, optional: true)),
+              ...widget.config.optionalInputs.map(
+                (key) => _buildTextField(key, key, optional: true),
+              ),
             ],
 
             // Dropdowns
             if (widget.config.dropdowns.isNotEmpty) ...[
               const SizedBox(height: 8),
-              ...widget.config.dropdowns.entries.map((e) => _buildDropdown(e.key, e.key, e.value)),
+              ...widget.config.dropdowns.entries.map(
+                (e) => _buildDropdown(e.key, e.key, e.value),
+              ),
             ],
 
             // Cuph Logic
             if (widget.config.hasCuphLogic) ...[
-              Builder(builder: (ctx) {
-                final sleeveType = widget.data['Sleeve Type']?.toString();
-                if (sleeveType == 'Round') {
-                  return _buildTextField('Cuph Loosing', 'Cuph Loosing');
-                } else {
-                  return _buildDropdown('Cuph', 'Cuph Size', ['9 x 2½', '10 x 2½', '9 x 3', '10 x 3']);
-                }
-              }),
+              Builder(
+                builder: (ctx) {
+                  final sleeveType = widget.data['Sleeve Type']?.toString();
+                  if (sleeveType == 'Round') {
+                    return _buildTextField('Cuph Loosing', 'Cuph Loosing');
+                  } else {
+                    return _buildDropdown('Cuph', 'Cuph Size', [
+                      '9 x 2½',
+                      '10 x 2½',
+                      '9 x 3',
+                      '10 x 3',
+                    ]);
+                  }
+                },
+              ),
             ],
 
             // Note and Images

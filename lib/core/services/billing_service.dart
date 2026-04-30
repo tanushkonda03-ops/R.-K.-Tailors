@@ -54,7 +54,7 @@ class BillingService {
         .get();
 
     final docs = snapshot.docs.map((doc) => doc.data()).toList();
-    
+
     // Sort locally by date descending to avoid requiring a Firestore composite index
     docs.sort((a, b) {
       final dateA = a['date'] as Timestamp?;

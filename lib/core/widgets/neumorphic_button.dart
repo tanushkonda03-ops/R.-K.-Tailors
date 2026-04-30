@@ -45,7 +45,9 @@ class NeumorphicButton extends StatelessWidget {
                   height: 24,
                   width: 24,
                   child: CircularProgressIndicator(
-                    color: isPrimary ? AppColors.textOnPrimary : AppColors.primary,
+                    color: isPrimary
+                        ? AppColors.textOnPrimary
+                        : AppColors.primary,
                     strokeWidth: 2,
                   ),
                 ),
@@ -60,7 +62,7 @@ class NeumorphicButton extends StatelessWidget {
                         : AppColors.textPrimary,
                   ),
                 ),
-              ]
+              ],
             ],
           ),
         ),

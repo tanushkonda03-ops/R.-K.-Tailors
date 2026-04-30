@@ -63,7 +63,8 @@ class DefaultFirebaseOptions {
     messagingSenderId: '566312450956',
     projectId: 'tailor-7b7cb',
     storageBucket: 'tailor-7b7cb.firebasestorage.app',
-    iosClientId: '566312450956-mq8fnvjnlcjklrc1np0cjhsdtt6nl7rj.apps.googleusercontent.com',
+    iosClientId:
+        '566312450956-mq8fnvjnlcjklrc1np0cjhsdtt6nl7rj.apps.googleusercontent.com',
     iosBundleId: 'com.example.tailor',
   );
 
@@ -73,7 +74,8 @@ class DefaultFirebaseOptions {
     messagingSenderId: '566312450956',
     projectId: 'tailor-7b7cb',
     storageBucket: 'tailor-7b7cb.firebasestorage.app',
-    iosClientId: '566312450956-mq8fnvjnlcjklrc1np0cjhsdtt6nl7rj.apps.googleusercontent.com',
+    iosClientId:
+        '566312450956-mq8fnvjnlcjklrc1np0cjhsdtt6nl7rj.apps.googleusercontent.com',
     iosBundleId: 'com.example.tailor',
   );
 

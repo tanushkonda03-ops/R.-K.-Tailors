@@ -15,7 +15,9 @@ class AuthService {
     // It looks like: 'xxxxxxx-yyyyyyy.apps.googleusercontent.com'
     // Paste it below, overwriting the placeholder string:
     // ----------------------------------------------------------------------
-    clientId: kIsWeb ? '566312450956-k85hvemm427v816cev2r1mpa0j71hs12.apps.googleusercontent.com' : null,
+    clientId: kIsWeb
+        ? '566312450956-k85hvemm427v816cev2r1mpa0j71hs12.apps.googleusercontent.com'
+        : null,
   );
 
   /// Sign Up with Email, Password and Username
@@ -70,7 +72,8 @@ class AuthService {
       final GoogleSignInAccount? googleUser = await _googleSignIn.signIn();
       if (googleUser == null) return null; // Used cancelled
 
-      final GoogleSignInAuthentication googleAuth = await googleUser.authentication;
+      final GoogleSignInAuthentication googleAuth =
+          await googleUser.authentication;
 
       final OAuthCredential credential = GoogleAuthProvider.credential(
         accessToken: googleAuth.accessToken,
@@ -80,12 +83,12 @@ class AuthService {
       UserCredential userCred = await _auth.signInWithCredential(credential);
 
       // Check if user exists in Firestore
-      final doc = await _firestore.collection('users').doc(userCred.user!.uid).get();
-      
-      return {
-        'user': userCred,
-        'isNew': !doc.exists,
-      };
+      final doc = await _firestore
+          .collection('users')
+          .doc(userCred.user!.uid)
+          .get();
+
+      return {'user': userCred, 'isNew': !doc.exists};
     } catch (e) {
       rethrow;
     }

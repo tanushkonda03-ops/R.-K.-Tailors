@@ -20,12 +20,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   final _confirmPasswordController = TextEditingController();
-  
+
   final _usernameFocus = FocusNode();
   final _emailFocus = FocusNode();
   final _passwordFocus = FocusNode();
   final _confirmPasswordFocus = FocusNode();
-  
+
   final _authService = AuthService();
   bool _isLoading = false;
   bool _isGoogleLoading = false;
@@ -52,9 +52,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
     if (email.isEmpty || password.isEmpty || username.isEmpty) return;
 
     if (password != confirmPassword) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Passwords do not match')),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(const SnackBar(content: Text('Passwords do not match')));
       return;
     }
 
@@ -72,9 +72,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
         (route) => false,
       );
     } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Error: ${e.toString()}')),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text('Error: ${e.toString()}')));
       setState(() => _isLoading = false);
     }
   }
@@ -87,7 +87,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
         setState(() => _isGoogleLoading = false);
         return;
       }
-      
+
       final isNew = result['isNew'] as bool;
       final user = result['user'].user!;
 
@@ -95,10 +95,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(
-            builder: (_) => CompleteProfileScreen(
-              uid: user.uid,
-              email: user.email ?? '',
-            ),
+            builder: (_) =>
+                CompleteProfileScreen(uid: user.uid, email: user.email ?? ''),
           ),
         );
       } else {
@@ -109,9 +107,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
         );
       }
     } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Google Error: ${e.toString()}')),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text('Google Error: ${e.toString()}')));
       setState(() => _isGoogleLoading = false);
     }
   }
@@ -143,13 +141,14 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 ),
               ),
               const SizedBox(height: 48),
-              
+
               NeumorphicTextField(
                 hintText: 'Username',
                 controller: _usernameController,
                 focusNode: _usernameFocus,
                 textInputAction: TextInputAction.next,
-                onSubmitted: (_) => FocusScope.of(context).requestFocus(_emailFocus),
+                onSubmitted: (_) =>
+                    FocusScope.of(context).requestFocus(_emailFocus),
               ),
               const SizedBox(height: 24),
               NeumorphicTextField(
@@ -158,7 +157,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 keyboardType: TextInputType.emailAddress,
                 focusNode: _emailFocus,
                 textInputAction: TextInputAction.next,
-                onSubmitted: (_) => FocusScope.of(context).requestFocus(_passwordFocus),
+                onSubmitted: (_) =>
+                    FocusScope.of(context).requestFocus(_passwordFocus),
               ),
               const SizedBox(height: 24),
               NeumorphicTextField(
@@ -167,7 +167,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 isPassword: true,
                 focusNode: _passwordFocus,
                 textInputAction: TextInputAction.next,
-                onSubmitted: (_) => FocusScope.of(context).requestFocus(_confirmPasswordFocus),
+                onSubmitted: (_) =>
+                    FocusScope.of(context).requestFocus(_confirmPasswordFocus),
               ),
               const SizedBox(height: 24),
               NeumorphicTextField(
@@ -178,9 +179,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 textInputAction: TextInputAction.done,
                 onSubmitted: (_) => _onSignUp(),
               ),
-              
+
               const SizedBox(height: 40),
-              
+
               Center(
                 child: NeumorphicButton(
                   label: 'Sign Up',
@@ -188,25 +189,31 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   isLoading: _isLoading,
                 ),
               ),
-              
+
               const SizedBox(height: 24),
-              
+
               Row(
                 children: [
-                  const Expanded(child: Divider(color: AppColors.textSecondary)),
+                  const Expanded(
+                    child: Divider(color: AppColors.textSecondary),
+                  ),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 16),
                     child: Text(
                       'OR',
-                      style: GoogleFonts.poppins(color: AppColors.textSecondary),
+                      style: GoogleFonts.poppins(
+                        color: AppColors.textSecondary,
+                      ),
                     ),
                   ),
-                  const Expanded(child: Divider(color: AppColors.textSecondary)),
+                  const Expanded(
+                    child: Divider(color: AppColors.textSecondary),
+                  ),
                 ],
               ),
-              
+
               const SizedBox(height: 24),
-              
+
               Center(
                 child: NeumorphicButton(
                   label: 'Continue with Google',
@@ -215,9 +222,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   isLoading: _isGoogleLoading,
                 ),
               ),
-              
+
               const SizedBox(height: 40),
-              
+
               Center(
                 child: GestureDetector(
                   onTap: () {

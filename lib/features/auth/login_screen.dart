@@ -20,7 +20,7 @@ class _LoginScreenState extends State<LoginScreen> {
   final _passwordController = TextEditingController();
   final _emailFocus = FocusNode();
   final _passwordFocus = FocusNode();
-  
+
   final _authService = AuthService();
   bool _isLoading = false;
   bool _isGoogleLoading = false;
@@ -53,9 +53,9 @@ class _LoginScreenState extends State<LoginScreen> {
         (route) => false,
       );
     } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Error: ${e.toString()}')),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text('Error: ${e.toString()}')));
       setState(() => _isLoading = false);
     }
   }
@@ -68,7 +68,7 @@ class _LoginScreenState extends State<LoginScreen> {
         setState(() => _isGoogleLoading = false);
         return;
       }
-      
+
       final isNew = result['isNew'] as bool;
       final user = result['user'].user!;
 
@@ -76,10 +76,8 @@ class _LoginScreenState extends State<LoginScreen> {
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(
-            builder: (_) => CompleteProfileScreen(
-              uid: user.uid,
-              email: user.email ?? '',
-            ),
+            builder: (_) =>
+                CompleteProfileScreen(uid: user.uid, email: user.email ?? ''),
           ),
         );
       } else {
@@ -90,9 +88,9 @@ class _LoginScreenState extends State<LoginScreen> {
         );
       }
     } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Google Error: ${e.toString()}')),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text('Google Error: ${e.toString()}')));
       setState(() => _isGoogleLoading = false);
     }
   }
@@ -124,14 +122,15 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
               ),
               const SizedBox(height: 48),
-              
+
               NeumorphicTextField(
                 hintText: 'Email',
                 controller: _emailController,
                 keyboardType: TextInputType.emailAddress,
                 focusNode: _emailFocus,
                 textInputAction: TextInputAction.next,
-                onSubmitted: (_) => FocusScope.of(context).requestFocus(_passwordFocus),
+                onSubmitted: (_) =>
+                    FocusScope.of(context).requestFocus(_passwordFocus),
               ),
               const SizedBox(height: 24),
               NeumorphicTextField(
@@ -142,9 +141,9 @@ class _LoginScreenState extends State<LoginScreen> {
                 textInputAction: TextInputAction.done,
                 onSubmitted: (_) => _onLogin(),
               ),
-              
+
               const SizedBox(height: 40),
-              
+
               Center(
                 child: NeumorphicButton(
                   label: 'Login',
@@ -152,25 +151,31 @@ class _LoginScreenState extends State<LoginScreen> {
                   isLoading: _isLoading,
                 ),
               ),
-              
+
               const SizedBox(height: 24),
-              
+
               Row(
                 children: [
-                  const Expanded(child: Divider(color: AppColors.textSecondary)),
+                  const Expanded(
+                    child: Divider(color: AppColors.textSecondary),
+                  ),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 16),
                     child: Text(
                       'OR',
-                      style: GoogleFonts.poppins(color: AppColors.textSecondary),
+                      style: GoogleFonts.poppins(
+                        color: AppColors.textSecondary,
+                      ),
                     ),
                   ),
-                  const Expanded(child: Divider(color: AppColors.textSecondary)),
+                  const Expanded(
+                    child: Divider(color: AppColors.textSecondary),
+                  ),
                 ],
               ),
-              
+
               const SizedBox(height: 24),
-              
+
               Center(
                 child: NeumorphicButton(
                   label: 'Continue with Google',
@@ -179,9 +184,9 @@ class _LoginScreenState extends State<LoginScreen> {
                   isLoading: _isGoogleLoading,
                 ),
               ),
-              
+
               const SizedBox(height: 40),
-              
+
               Center(
                 child: GestureDetector(
                   onTap: () {

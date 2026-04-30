@@ -49,17 +49,24 @@ class _AdminDashboardState extends State<AdminDashboard> {
         centerTitle: true,
         actions: [
           GestureDetector(
-            onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const ProfileScreen())),
+            onTap: () => Navigator.push(
+              context,
+              MaterialPageRoute(builder: (_) => const ProfileScreen()),
+            ),
             child: Container(
               width: 36,
               height: 36,
               decoration: const BoxDecoration(
                 shape: BoxShape.circle,
-                gradient: LinearGradient(colors: [AppColors.primary, AppColors.accent]),
+                gradient: LinearGradient(
+                  colors: [AppColors.primary, AppColors.accent],
+                ),
               ),
               child: Center(
                 child: Text(
-                  widget.username.isNotEmpty ? widget.username[0].toUpperCase() : 'U',
+                  widget.username.isNotEmpty
+                      ? widget.username[0].toUpperCase()
+                      : 'U',
                   style: GoogleFonts.poppins(
                     color: Colors.white,
                     fontWeight: FontWeight.w600,
@@ -72,10 +79,7 @@ class _AdminDashboardState extends State<AdminDashboard> {
           const SizedBox(width: 8),
         ],
       ),
-      body: IndexedStack(
-        index: _currentIndex,
-        children: _pages,
-      ),
+      body: IndexedStack(index: _currentIndex, children: _pages),
       bottomNavigationBar: Container(
         decoration: BoxDecoration(
           color: AppColors.background,
@@ -93,7 +97,10 @@ class _AdminDashboardState extends State<AdminDashboard> {
           backgroundColor: AppColors.background,
           selectedItemColor: AppColors.primary,
           unselectedItemColor: AppColors.textSecondary,
-          selectedLabelStyle: GoogleFonts.poppins(fontWeight: FontWeight.w600, fontSize: 12),
+          selectedLabelStyle: GoogleFonts.poppins(
+            fontWeight: FontWeight.w600,
+            fontSize: 12,
+          ),
           unselectedLabelStyle: GoogleFonts.poppins(fontSize: 12),
           type: BottomNavigationBarType.fixed,
           elevation: 0,

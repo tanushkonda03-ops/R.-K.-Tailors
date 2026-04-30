@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:printing/printing.dart';
@@ -69,7 +68,10 @@ class _AdminBillStatusScreenState extends State<AdminBillStatusScreen> {
 
     try {
       final billNo = _billData!['billNo'];
-      double total = _editItems.fold(0.0, (s, item) => s + (item['amount'] as num).toDouble());
+      double total = _editItems.fold(
+        0.0,
+        (s, item) => s + (item['amount'] as num).toDouble(),
+      );
       double advance = double.tryParse(_editAdvanceController.text) ?? 0;
 
       await _billingService.updateBill(billNo, {
@@ -88,12 +90,17 @@ class _AdminBillStatusScreenState extends State<AdminBillStatusScreen> {
 
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Bill updated!'), backgroundColor: AppColors.primary),
+          const SnackBar(
+            content: Text('Bill updated!'),
+            backgroundColor: AppColors.primary,
+          ),
         );
       }
     } catch (e) {
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Error updating: $e')));
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text('Error updating: $e')));
       }
     } finally {
       if (mounted) setState(() => _isLoading = false);
@@ -107,11 +114,32 @@ class _AdminBillStatusScreenState extends State<AdminBillStatusScreen> {
       context: context,
       builder: (ctx) => AlertDialog(
         backgroundColor: AppColors.background,
-        title: Text('Mark as Delivered?', style: GoogleFonts.playfairDisplay(color: AppColors.textPrimary)),
-        content: Text('Bill #$billNo will be permanently deleted.', style: GoogleFonts.poppins(color: AppColors.textSecondary)),
+        title: Text(
+          'Mark as Delivered?',
+          style: GoogleFonts.playfairDisplay(color: AppColors.textPrimary),
+        ),
+        content: Text(
+          'Bill #$billNo will be permanently deleted.',
+          style: GoogleFonts.poppins(color: AppColors.textSecondary),
+        ),
         actions: [
-          TextButton(onPressed: () => Navigator.pop(ctx, false), child: Text('Cancel', style: GoogleFonts.poppins(color: AppColors.textSecondary))),
-          TextButton(onPressed: () => Navigator.pop(ctx, true), child: Text('Deliver', style: GoogleFonts.poppins(color: Colors.redAccent, fontWeight: FontWeight.w600))),
+          TextButton(
+            onPressed: () => Navigator.pop(ctx, false),
+            child: Text(
+              'Cancel',
+              style: GoogleFonts.poppins(color: AppColors.textSecondary),
+            ),
+          ),
+          TextButton(
+            onPressed: () => Navigator.pop(ctx, true),
+            child: Text(
+              'Deliver',
+              style: GoogleFonts.poppins(
+                color: Colors.redAccent,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+          ),
         ],
       ),
     );
@@ -128,12 +156,17 @@ class _AdminBillStatusScreenState extends State<AdminBillStatusScreen> {
       });
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Bill #$billNo delivered & removed.'), backgroundColor: AppColors.primary),
+          SnackBar(
+            content: Text('Bill #$billNo delivered & removed.'),
+            backgroundColor: AppColors.primary,
+          ),
         );
       }
     } catch (e) {
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Error: $e')));
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text('Error: $e')));
       }
     } finally {
       if (mounted) setState(() => _isLoading = false);
@@ -169,9 +202,22 @@ class _AdminBillStatusScreenState extends State<AdminBillStatusScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Text('Bill Status', style: GoogleFonts.playfairDisplay(fontSize: 28, fontWeight: FontWeight.bold, color: AppColors.textPrimary)),
+            Text(
+              'Bill Status',
+              style: GoogleFonts.playfairDisplay(
+                fontSize: 28,
+                fontWeight: FontWeight.bold,
+                color: AppColors.textPrimary,
+              ),
+            ),
             const SizedBox(height: 8),
-            Text('Search and manage customer bills.', style: GoogleFonts.poppins(fontSize: 14, color: AppColors.textSecondary)),
+            Text(
+              'Search and manage customer bills.',
+              style: GoogleFonts.poppins(
+                fontSize: 14,
+                color: AppColors.textSecondary,
+              ),
+            ),
             const SizedBox(height: 32),
 
             NeumorphicTextField(
@@ -182,42 +228,124 @@ class _AdminBillStatusScreenState extends State<AdminBillStatusScreen> {
               onSubmitted: (_) => _fetchBill(),
             ),
             const SizedBox(height: 16),
-            Center(child: NeumorphicButton(label: 'Find Bill', onTap: _fetchBill, isLoading: _isLoading)),
+            Center(
+              child: NeumorphicButton(
+                label: 'Find Bill',
+                onTap: _fetchBill,
+                isLoading: _isLoading,
+              ),
+            ),
             const SizedBox(height: 24),
 
             if (_error != null)
               Padding(
                 padding: const EdgeInsets.all(8),
-                child: Text(_error!, textAlign: TextAlign.center, style: GoogleFonts.poppins(color: Colors.redAccent, fontWeight: FontWeight.w500)),
+                child: Text(
+                  _error!,
+                  textAlign: TextAlign.center,
+                  style: GoogleFonts.poppins(
+                    color: Colors.redAccent,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
               ),
 
             if (_billData != null) ...[
               const Divider(height: 48),
 
               NeumorphicContainer(
-                borderRadius: 16, padding: const EdgeInsets.all(20), isPressed: false,
+                borderRadius: 16,
+                padding: const EdgeInsets.all(20),
+                isPressed: false,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text('Bill #${_billData!['billNo']}', style: GoogleFonts.playfairDisplay(fontSize: 20, fontWeight: FontWeight.bold, color: AppColors.primary)),
-                        Text(_formatDate(_billData!['date']), style: GoogleFonts.poppins(fontSize: 13, color: AppColors.textSecondary)),
+                        Text(
+                          'Bill #${_billData!['billNo']}',
+                          style: GoogleFonts.playfairDisplay(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                            color: AppColors.primary,
+                          ),
+                        ),
+                        Text(
+                          _formatDate(_billData!['date']),
+                          style: GoogleFonts.poppins(
+                            fontSize: 13,
+                            color: AppColors.textSecondary,
+                          ),
+                        ),
                       ],
                     ),
                     const SizedBox(height: 8),
-                    Text('Customer: ${_billData!['customerName']}', style: GoogleFonts.poppins(fontSize: 14, fontWeight: FontWeight.w600, color: AppColors.textPrimary)),
-                    Text("Cust. ID: ${_billData!['customerId']}", style: GoogleFonts.poppins(fontSize: 13, color: AppColors.textSecondary)),
+                    Text(
+                      'Customer: ${_billData!['customerName']}',
+                      style: GoogleFonts.poppins(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w600,
+                        color: AppColors.textPrimary,
+                      ),
+                    ),
+                    Text(
+                      "Cust. ID: ${_billData!['customerId']}",
+                      style: GoogleFonts.poppins(
+                        fontSize: 13,
+                        color: AppColors.textSecondary,
+                      ),
+                    ),
                     const Divider(height: 24),
 
                     // Items Table Header
                     Row(
                       children: [
-                        SizedBox(width: 30, child: Text('#', style: GoogleFonts.poppins(fontSize: 12, fontWeight: FontWeight.w700, color: AppColors.textSecondary))),
-                        Expanded(child: Text('Item', style: GoogleFonts.poppins(fontSize: 12, fontWeight: FontWeight.w700, color: AppColors.textSecondary))),
-                        SizedBox(width: 35, child: Text('Qty', style: GoogleFonts.poppins(fontSize: 12, fontWeight: FontWeight.w700, color: AppColors.textSecondary), textAlign: TextAlign.right)),
-                        SizedBox(width: 70, child: Text('Amt', style: GoogleFonts.poppins(fontSize: 12, fontWeight: FontWeight.w700, color: AppColors.textSecondary), textAlign: TextAlign.right)),
+                        SizedBox(
+                          width: 30,
+                          child: Text(
+                            '#',
+                            style: GoogleFonts.poppins(
+                              fontSize: 12,
+                              fontWeight: FontWeight.w700,
+                              color: AppColors.textSecondary,
+                            ),
+                          ),
+                        ),
+                        Expanded(
+                          child: Text(
+                            'Item',
+                            style: GoogleFonts.poppins(
+                              fontSize: 12,
+                              fontWeight: FontWeight.w700,
+                              color: AppColors.textSecondary,
+                            ),
+                          ),
+                        ),
+                        SizedBox(
+                          width: 35,
+                          child: Text(
+                            'Qty',
+                            style: GoogleFonts.poppins(
+                              fontSize: 12,
+                              fontWeight: FontWeight.w700,
+                              color: AppColors.textSecondary,
+                            ),
+                            textAlign: TextAlign.right,
+                          ),
+                        ),
+                        SizedBox(
+                          width: 70,
+                          child: Text(
+                            'Amt',
+                            style: GoogleFonts.poppins(
+                              fontSize: 12,
+                              fontWeight: FontWeight.w700,
+                              color: AppColors.textSecondary,
+                            ),
+                            textAlign: TextAlign.right,
+                          ),
+                        ),
                       ],
                     ),
                     const SizedBox(height: 8),
@@ -229,71 +357,170 @@ class _AdminBillStatusScreenState extends State<AdminBillStatusScreen> {
                         final item = e.value;
                         return Padding(
                           padding: const EdgeInsets.symmetric(vertical: 4),
-                          child: Row(children: [
-                            SizedBox(width: 30, child: Text('${idx + 1}', style: GoogleFonts.poppins(fontSize: 13))),
-                            Expanded(child: Text('${item['name']}', style: GoogleFonts.poppins(fontSize: 13, color: AppColors.textPrimary))),
-                            SizedBox(
-                              width: 50,
-                              child: TextField(
-                                controller: TextEditingController(text: '${item['quantity']}'),
-                                keyboardType: TextInputType.number,
-                                style: GoogleFonts.poppins(fontSize: 13, color: AppColors.textPrimary),
-                                textAlign: TextAlign.right,
-                                decoration: const InputDecoration(border: UnderlineInputBorder(), isDense: true, contentPadding: EdgeInsets.symmetric(vertical: 4)),
-                                onChanged: (val) {
-                                  final qty = int.tryParse(val) ?? 1;
-                                  _editItems[idx]['quantity'] = qty;
-                                  _editItems[idx]['amount'] = (item['price'] as num).toDouble() * qty;
-                                },
+                          child: Row(
+                            children: [
+                              SizedBox(
+                                width: 30,
+                                child: Text(
+                                  '${idx + 1}',
+                                  style: GoogleFonts.poppins(fontSize: 13),
+                                ),
                               ),
-                            ),
-                            SizedBox(width: 60, child: Text('₹${((item['amount'] as num).toDouble()).toStringAsFixed(0)}', style: GoogleFonts.poppins(fontSize: 13), textAlign: TextAlign.right)),
-                            GestureDetector(
-                              onTap: () {
-                                setState(() {
-                                  _editItems.removeAt(idx);
-                                  for (int i = 0; i < _editItems.length; i++) {
-                                    _editItems[i]['srNo'] = i + 1;
-                                  }
-                                });
-                              },
-                              child: const Padding(padding: EdgeInsets.only(left: 4), child: Icon(Icons.close, size: 16, color: Colors.redAccent)),
-                            ),
-                          ]),
+                              Expanded(
+                                child: Text(
+                                  '${item['name']}',
+                                  style: GoogleFonts.poppins(
+                                    fontSize: 13,
+                                    color: AppColors.textPrimary,
+                                  ),
+                                ),
+                              ),
+                              SizedBox(
+                                width: 50,
+                                child: TextField(
+                                  controller: TextEditingController(
+                                    text: '${item['quantity']}',
+                                  ),
+                                  keyboardType: TextInputType.number,
+                                  style: GoogleFonts.poppins(
+                                    fontSize: 13,
+                                    color: AppColors.textPrimary,
+                                  ),
+                                  textAlign: TextAlign.right,
+                                  decoration: const InputDecoration(
+                                    border: UnderlineInputBorder(),
+                                    isDense: true,
+                                    contentPadding: EdgeInsets.symmetric(
+                                      vertical: 4,
+                                    ),
+                                  ),
+                                  onChanged: (val) {
+                                    final qty = int.tryParse(val) ?? 1;
+                                    _editItems[idx]['quantity'] = qty;
+                                    _editItems[idx]['amount'] =
+                                        (item['price'] as num).toDouble() * qty;
+                                  },
+                                ),
+                              ),
+                              SizedBox(
+                                width: 60,
+                                child: Text(
+                                  '₹${((item['amount'] as num).toDouble()).toStringAsFixed(0)}',
+                                  style: GoogleFonts.poppins(fontSize: 13),
+                                  textAlign: TextAlign.right,
+                                ),
+                              ),
+                              GestureDetector(
+                                onTap: () {
+                                  setState(() {
+                                    _editItems.removeAt(idx);
+                                    for (
+                                      int i = 0;
+                                      i < _editItems.length;
+                                      i++
+                                    ) {
+                                      _editItems[i]['srNo'] = i + 1;
+                                    }
+                                  });
+                                },
+                                child: const Padding(
+                                  padding: EdgeInsets.only(left: 4),
+                                  child: Icon(
+                                    Icons.close,
+                                    size: 16,
+                                    color: Colors.redAccent,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
                         );
                       })
                     else
                       ...(_billData!['items'] as List).map((item) {
                         return Padding(
                           padding: const EdgeInsets.symmetric(vertical: 4),
-                          child: Row(children: [
-                            SizedBox(width: 30, child: Text('${item['srNo']}', style: GoogleFonts.poppins(fontSize: 13))),
-                            Expanded(child: Text('${item['name']}', style: GoogleFonts.poppins(fontSize: 13, color: AppColors.textPrimary))),
-                            SizedBox(width: 35, child: Text('${item['quantity']}', style: GoogleFonts.poppins(fontSize: 13), textAlign: TextAlign.right)),
-                            SizedBox(width: 70, child: Text('₹${((item['amount'] as num).toDouble()).toStringAsFixed(0)}', style: GoogleFonts.poppins(fontSize: 13), textAlign: TextAlign.right)),
-                          ]),
+                          child: Row(
+                            children: [
+                              SizedBox(
+                                width: 30,
+                                child: Text(
+                                  '${item['srNo']}',
+                                  style: GoogleFonts.poppins(fontSize: 13),
+                                ),
+                              ),
+                              Expanded(
+                                child: Text(
+                                  '${item['name']}',
+                                  style: GoogleFonts.poppins(
+                                    fontSize: 13,
+                                    color: AppColors.textPrimary,
+                                  ),
+                                ),
+                              ),
+                              SizedBox(
+                                width: 35,
+                                child: Text(
+                                  '${item['quantity']}',
+                                  style: GoogleFonts.poppins(fontSize: 13),
+                                  textAlign: TextAlign.right,
+                                ),
+                              ),
+                              SizedBox(
+                                width: 70,
+                                child: Text(
+                                  '₹${((item['amount'] as num).toDouble()).toStringAsFixed(0)}',
+                                  style: GoogleFonts.poppins(fontSize: 13),
+                                  textAlign: TextAlign.right,
+                                ),
+                              ),
+                            ],
+                          ),
                         );
                       }),
 
                     const Divider(height: 24),
 
                     // Totals
-                    _totalRow('Total', '₹${(_billData!['total'] as num).toDouble().toStringAsFixed(0)}'),
+                    _totalRow(
+                      'Total',
+                      '₹${(_billData!['total'] as num).toDouble().toStringAsFixed(0)}',
+                    ),
 
                     if (_isEditing) ...[
                       const SizedBox(height: 8),
-                      Text('Advance (₹)', style: GoogleFonts.poppins(fontSize: 12, color: AppColors.textSecondary)),
+                      Text(
+                        'Advance (₹)',
+                        style: GoogleFonts.poppins(
+                          fontSize: 12,
+                          color: AppColors.textSecondary,
+                        ),
+                      ),
                       TextField(
                         controller: _editAdvanceController,
                         keyboardType: TextInputType.number,
-                        style: GoogleFonts.poppins(fontSize: 14, color: AppColors.textPrimary),
-                        decoration: const InputDecoration(border: UnderlineInputBorder(), isDense: true, contentPadding: EdgeInsets.symmetric(vertical: 4)),
+                        style: GoogleFonts.poppins(
+                          fontSize: 14,
+                          color: AppColors.textPrimary,
+                        ),
+                        decoration: const InputDecoration(
+                          border: UnderlineInputBorder(),
+                          isDense: true,
+                          contentPadding: EdgeInsets.symmetric(vertical: 4),
+                        ),
                       ),
                     ] else
-                      _totalRow('Advance', '₹${(_billData!['advance'] as num).toDouble().toStringAsFixed(0)}'),
+                      _totalRow(
+                        'Advance',
+                        '₹${(_billData!['advance'] as num).toDouble().toStringAsFixed(0)}',
+                      ),
 
                     const Divider(height: 16),
-                    _totalRow('Grand Total', '₹${(_billData!['grandTotal'] as num).toDouble().toStringAsFixed(0)}', bold: true),
+                    _totalRow(
+                      'Grand Total',
+                      '₹${(_billData!['grandTotal'] as num).toDouble().toStringAsFixed(0)}',
+                      bold: true,
+                    ),
                   ],
                 ),
               ),
@@ -305,13 +532,21 @@ class _AdminBillStatusScreenState extends State<AdminBillStatusScreen> {
                 children: [
                   Expanded(
                     child: ElevatedButton.icon(
-                      icon: Icon(_isEditing ? Icons.save : Icons.edit, size: 18),
-                      label: Text(_isEditing ? 'Save' : 'Edit', style: GoogleFonts.poppins(fontWeight: FontWeight.w600)),
+                      icon: Icon(
+                        _isEditing ? Icons.save : Icons.edit,
+                        size: 18,
+                      ),
+                      label: Text(
+                        _isEditing ? 'Save' : 'Edit',
+                        style: GoogleFonts.poppins(fontWeight: FontWeight.w600),
+                      ),
                       style: ElevatedButton.styleFrom(
                         backgroundColor: AppColors.primary,
                         foregroundColor: Colors.white,
                         padding: const EdgeInsets.symmetric(vertical: 14),
-                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
                       ),
                       onPressed: _isEditing ? _saveEdits : _startEditing,
                     ),
@@ -320,12 +555,17 @@ class _AdminBillStatusScreenState extends State<AdminBillStatusScreen> {
                   Expanded(
                     child: ElevatedButton.icon(
                       icon: const Icon(Icons.print, size: 18),
-                      label: Text('Print', style: GoogleFonts.poppins(fontWeight: FontWeight.w600)),
+                      label: Text(
+                        'Print',
+                        style: GoogleFonts.poppins(fontWeight: FontWeight.w600),
+                      ),
                       style: ElevatedButton.styleFrom(
                         backgroundColor: AppColors.accent,
                         foregroundColor: Colors.white,
                         padding: const EdgeInsets.symmetric(vertical: 14),
-                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
                       ),
                       onPressed: _printBill,
                     ),
@@ -337,12 +577,17 @@ class _AdminBillStatusScreenState extends State<AdminBillStatusScreen> {
                 width: double.infinity,
                 child: ElevatedButton.icon(
                   icon: const Icon(Icons.check_circle_outline, size: 20),
-                  label: Text('Mark as Delivered', style: GoogleFonts.poppins(fontWeight: FontWeight.w600)),
+                  label: Text(
+                    'Mark as Delivered',
+                    style: GoogleFonts.poppins(fontWeight: FontWeight.w600),
+                  ),
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.green.shade700,
                     foregroundColor: Colors.white,
                     padding: const EdgeInsets.symmetric(vertical: 14),
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
                   ),
                   onPressed: _markDelivered,
                 ),
@@ -361,8 +606,22 @@ class _AdminBillStatusScreenState extends State<AdminBillStatusScreen> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(label, style: GoogleFonts.poppins(fontSize: bold ? 16 : 14, fontWeight: bold ? FontWeight.w700 : FontWeight.w600, color: AppColors.primary)),
-          Text(value, style: GoogleFonts.poppins(fontSize: bold ? 16 : 14, fontWeight: bold ? FontWeight.w700 : FontWeight.w500, color: AppColors.textPrimary)),
+          Text(
+            label,
+            style: GoogleFonts.poppins(
+              fontSize: bold ? 16 : 14,
+              fontWeight: bold ? FontWeight.w700 : FontWeight.w600,
+              color: AppColors.primary,
+            ),
+          ),
+          Text(
+            value,
+            style: GoogleFonts.poppins(
+              fontSize: bold ? 16 : 14,
+              fontWeight: bold ? FontWeight.w700 : FontWeight.w500,
+              color: AppColors.textPrimary,
+            ),
+          ),
         ],
       ),
     );

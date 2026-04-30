@@ -31,7 +31,10 @@ class AuthWrapper extends StatelessWidget {
 
         // Check if the user document exists and handle roles
         return FutureBuilder<DocumentSnapshot>(
-          future: FirebaseFirestore.instance.collection('users').doc(snapshot.data!.uid).get(),
+          future: FirebaseFirestore.instance
+              .collection('users')
+              .doc(snapshot.data!.uid)
+              .get(),
           builder: (context, docSnapshot) {
             if (docSnapshot.connectionState == ConnectionState.waiting) {
               return const Scaffold(

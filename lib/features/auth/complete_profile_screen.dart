@@ -28,16 +28,16 @@ class _CompleteProfileScreenState extends State<CompleteProfileScreen> {
 
   void _onComplete() async {
     if (_usernameController.text.trim().isEmpty) return;
-    
+
     setState(() => _isLoading = true);
-    
+
     try {
       await _authService.completeGoogleProfile(
         uid: widget.uid,
         email: widget.email,
         username: _usernameController.text.trim(),
       );
-      
+
       if (!mounted) return;
       Navigator.pushAndRemoveUntil(
         context,
@@ -45,9 +45,9 @@ class _CompleteProfileScreenState extends State<CompleteProfileScreen> {
         (route) => false,
       );
     } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Error: ${e.toString()}')),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text('Error: ${e.toString()}')));
       setState(() => _isLoading = false);
     }
   }

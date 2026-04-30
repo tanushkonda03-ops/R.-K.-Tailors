@@ -25,7 +25,10 @@ class ProfileScreen extends StatelessWidget {
   Future<DocumentSnapshot> _getUserProfile() async {
     final user = FirebaseAuth.instance.currentUser;
     if (user == null) throw Exception('Not logged in');
-    return await FirebaseFirestore.instance.collection('users').doc(user.uid).get();
+    return await FirebaseFirestore.instance
+        .collection('users')
+        .doc(user.uid)
+        .get();
   }
 
   @override
@@ -57,7 +60,9 @@ class ProfileScreen extends StatelessWidget {
             );
           }
 
-          if (snapshot.hasError || !snapshot.hasData || !snapshot.data!.exists) {
+          if (snapshot.hasError ||
+              !snapshot.hasData ||
+              !snapshot.data!.exists) {
             return const Center(child: Text('Error loading profile'));
           }
 
@@ -100,8 +105,8 @@ class ProfileScreen extends StatelessWidget {
                 ),
                 const SizedBox(height: 4),
                 Text(
-                  data['customerId'] != null 
-                      ? 'ID: ${data['customerId']}' 
+                  data['customerId'] != null
+                      ? 'ID: ${data['customerId']}'
                       : 'ID: N/A',
                   textAlign: TextAlign.center,
                   style: GoogleFonts.poppins(
@@ -126,7 +131,9 @@ class ProfileScreen extends StatelessWidget {
                     onTap: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (_) => const UserMeasurementsScreen()),
+                        MaterialPageRoute(
+                          builder: (_) => const UserMeasurementsScreen(),
+                        ),
                       );
                     },
                   ),
@@ -138,7 +145,9 @@ class ProfileScreen extends StatelessWidget {
                     onTap: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (_) => const UserBillsScreen()),
+                        MaterialPageRoute(
+                          builder: (_) => const UserBillsScreen(),
+                        ),
                       );
                     },
                   ),
