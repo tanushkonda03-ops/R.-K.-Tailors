@@ -1,0 +1,54 @@
+{
+  "project_info": {
+    "project_number": "566312450956",
+    "project_id": "tailor-7b7cb",
+    "storage_bucket": "tailor-7b7cb.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:566312450956:android:8e95d70988acc9904ff4a9",
+        "android_client_info": {
+          "package_name": "com.example.tailor"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "566312450956-nugp6u65168r5ns1ppsv3g1htvpot97p.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.tailor",
+            "certificate_hash": "1038c4815b8b598a6b06b09b4a902dc765497818"
+          }
+        },
+        {
+          "client_id": "566312450956-k85hvemm427v816cev2r1mpa0j71hs12.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD7ATZkB3osyDL3zy0SV7-Amp8__YRfED8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "566312450956-k85hvemm427v816cev2r1mpa0j71hs12.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "566312450956-mq8fnvjnlcjklrc1np0cjhsdtt6nl7rj.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.tailor"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
